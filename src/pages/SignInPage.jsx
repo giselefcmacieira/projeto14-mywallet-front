@@ -1,18 +1,61 @@
 import styled from "styled-components"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import MyWalletLogo from "../components/MyWalletLogo"
+import { useState } from "react"
+import axios from "axios"
 
 export default function SignInPage() {
+  const navigate = useNavigate();
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isDisabled, setIsDisabled] = useState(false);
+
+  function signIn (event){
+    event.preventDefault();
+    setIsDisabled(true);
+    const url = `${import.meta.env.VITE_API_URL}/sign-in`;
+    //body; {email: 'xxx@email.com', password: 'ixzdfbhzdsjbnf'}
+    const body = {
+      email,
+      password
+    }
+    axios.post(url,body)
+      .then(resp => {
+        console.log(resp);
+        console.log(resp.data.token);
+        navigate('/home');
+      })
+      .catch(err =>{
+        console.log(err);
+        alert(err.response.data)
+        setIsDisabled(false);
+      })
+  }
+  
   return (
     <SingInContainer>
-      <form>
+      <form onSubmit={signIn}>
         <MyWalletLogo />
-        <input placeholder="E-mail" type="email" />
-        <input placeholder="Senha" type="password" autocomplete="new-password" />
-        <button>Entrar</button>
+        <input required 
+        type='email' 
+        id= 'campoEmail'
+        value = {email}
+        onChange = {e => setEmail(e.target.value)}
+        placeholder="E-mail" 
+        />
+        <input required 
+        type='password' 
+        id= 'campoSenha'
+        value = {password}
+        onChange = {e => setPassword(e.target.value)}
+        placeholder="Senha" 
+        autoComplete="new-password"
+        />
+        <button type='submit' disabled = {isDisabled}>Entrar</button>
       </form>
 
-      <Link>
+      <Link to = '/cadastro'>
         Primeira vez? Cadastre-se!
       </Link>
     </SingInContainer>

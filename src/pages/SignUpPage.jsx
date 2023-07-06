@@ -1,20 +1,87 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import styled from "styled-components"
 import MyWalletLogo from "../components/MyWalletLogo"
+import { useState } from "react"
+import dotenv from 'dotenv'
+import axios from "axios"
 
 export default function SignUpPage() {
+
+  const navigate = useNavigate();
+
+  //dotenv.config();
+
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordConfirmation, setPasswordConfirmation] = useState('');
+  const [isDisabled, setIsDisabled] = useState(false);
+
+  function signUp (event){
+    event.preventDefault();
+    setIsDisabled(true);
+    const url = `${import.meta.env.VITE_API_URL}/sign-up`;
+    // body: {name: 'xxxx', email: ''aaa@ffff', password: 'xlcvbnipsaudebnj'}
+    const body = {
+      name,
+      email,
+      password
+    }
+    if(password === passwordConfirmation){
+      axios.post(url, body)
+      .then(resp => {
+        console.log(resp);
+        navigate('/');
+      }) 
+      .catch(err =>{
+        console.log(err.response.data);
+        alert(err.response.data)
+        setIsDisabled(false);
+      })
+    }else{
+      alert('senha e confirmação de senha são diferentes!');
+      setIsDisabled(false);
+    }
+    
+  }
   return (
     <SingUpContainer>
-      <form>
+      <form onSubmit={signUp}>
         <MyWalletLogo />
-        <input placeholder="Nome" type="text" />
-        <input placeholder="E-mail" type="email" />
-        <input placeholder="Senha" type="password" autocomplete="new-password" />
-        <input placeholder="Confirme a senha" type="password" autocomplete="new-password" />
-        <button>Cadastrar</button>
+        <input required 
+        type='text' 
+        id= 'campoNome'
+        value = {name}
+        onChange = {e => setName(e.target.value)}
+        placeholder="Nome" 
+        />
+        <input required 
+        type='email' 
+        id= 'campoEmail'
+        value = {email}
+        onChange = {e => setEmail(e.target.value)}
+        placeholder="E-mail" 
+        />
+        <input required 
+        type='password' 
+        id= 'campoSenha'
+        value = {password}
+        onChange = {e => setPassword(e.target.value)}
+        placeholder="Senha" 
+        autoComplete="new-password"
+        />
+        <input required 
+        type='password' 
+        id= 'campoConfirmacaoDeSenha'
+        value = {passwordConfirmation}
+        onChange = {e => setPasswordConfirmation(e.target.value)}
+        placeholder="Confirme a senha" 
+        autoComplete="new-password"
+        />
+        <button type='submit' disabled={isDisabled}>Cadastrar</button>
       </form>
 
-      <Link>
+      <Link to = '/'>
         Já tem uma conta? Entre agora!
       </Link>
     </SingUpContainer>
