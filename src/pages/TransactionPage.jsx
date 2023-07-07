@@ -15,6 +15,8 @@ export default function TransactionsPage() {
 
   function addTransaction (event){
     event.preventDefault();
+    console.log(value);
+    if(isNaN(value.replace(',','.'))) return alert('O valor precisa ser um número');
     setIsDisabled(true);
     let type = '';
     if(tipo === 'entrada'){
@@ -24,7 +26,7 @@ export default function TransactionsPage() {
       type = 'outcome';
     }
     const url = `${import.meta.env.VITE_API_URL}/new-transaction/${type}`;
-    const body = {value, description};
+    const body = {value: value.replace(',','.'), description};
     const headers = {headers: {'Authorization': `Bearer ${user.token}`}};
     axios.post(url, body, headers)
       .then(resp => {
@@ -47,9 +49,7 @@ export default function TransactionsPage() {
         <input 
         data-test="registry-amount-input"
         placeholder="Valor" 
-        type="number" 
-        step="0.01" 
-        min="0"
+        type="text"
         value = {value}
         onChange = {e => setValue(e.target.value)} 
         required/> 
