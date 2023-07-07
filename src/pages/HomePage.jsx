@@ -10,13 +10,13 @@ export default function HomePage() {
 
   const [userTransactions, setUserTransactions] = useState([])
 
+  const [soma, setSoma] = useState('');
+
+  const [total, setTotal] = useState(0);
+
   const navigate = useNavigate();
 
   const {user} = useContext(UserContext);
-
-  console.log(user);
-
-  
 
   useEffect(() => {
     const url = `${import.meta.env.VITE_API_URL}/my-transactions`;
@@ -24,10 +24,23 @@ export default function HomePage() {
     axios.get(url, headers)
     .then(resp => {
       console.log(resp);
+      let s = 0;
+      resp.data.forEach( trans => {
+        if(trans.type === 'income'){
+          s = s + Number(trans.value);
+        }else{
+          s = s - Number(trans.value);
+        }
+      })
+      console.log(s);
+      console.log(typeof(s));
+      setTotal(s);
+      setSoma(s.toString().replace('.',','));
+      resp.data.map( trans => trans.value = trans.value.replace('.',','));
       setUserTransactions(resp.data);
     })
     .catch (err => {
-      console.log(err)
+      alert(err.response.data)
     })
   }, [])
   
@@ -43,7 +56,7 @@ export default function HomePage() {
       <TransactionsContainer>
         <ul>
           {userTransactions.map(transaction => (
-            <ListItemContainer>
+            <ListItemContainer key = {transaction._id}>
             <div>
               <span>{transaction.date}</span>
               <strong data-test="registry-name" >{transaction.description}</strong>
@@ -55,7 +68,7 @@ export default function HomePage() {
 
         <article>
           <strong>Saldo</strong>
-          <Value data-test="total-amount" color={"positivo"}>2880,00</Value>
+          <Value data-test="total-amount" color={total >= 0 ? 'income' : 'outcome'}>{soma}</Value>
         </article>
       </TransactionsContainer>
 

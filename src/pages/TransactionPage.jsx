@@ -16,7 +16,14 @@ export default function TransactionsPage() {
   function addTransaction (event){
     event.preventDefault();
     console.log(value);
+    //let valorCorreto = '';
     if(isNaN(value.replace(',','.'))) return alert('O valor precisa ser um número');
+    /* if(value.replace(',', '.').includes('.')){
+      valorCorreto = Number(value.replace(',', '.')).toFixed(2);
+    }else{
+      valorCorreto = Number(value).toFixed(2);
+    }
+    console.log(valorCorreto) */
     setIsDisabled(true);
     let type = '';
     if(tipo === 'entrada'){
@@ -26,7 +33,8 @@ export default function TransactionsPage() {
       type = 'outcome';
     }
     const url = `${import.meta.env.VITE_API_URL}/new-transaction/${type}`;
-    const body = {value: value.replace(',','.'), description};
+    const body = {value: value.replace(',', '.').includes('.') ? Number(value.replace(',', '.')).toFixed(2) : Number(value).toFixed(2),
+      description};
     const headers = {headers: {'Authorization': `Bearer ${user.token}`}};
     axios.post(url, body, headers)
       .then(resp => {
