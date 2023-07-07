@@ -1,8 +1,11 @@
 import styled from "styled-components"
 import { BiExit } from "react-icons/bi"
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai"
+import { Link, useNavigate } from "react-router-dom"
 
 export default function HomePage() {
+  const navigate = useNavigate();
+
   return (
     <HomeContainer>
       <Header>
@@ -37,14 +40,14 @@ export default function HomePage() {
 
 
       <ButtonsContainer>
-        <button>
-          <AiOutlinePlusCircle />
-          <p>Nova <br /> entrada</p>
-        </button>
-        <button>
-          <AiOutlineMinusCircle />
-          <p>Nova <br />saída</p>
-        </button>
+          <button onClick = {() => navigate("/nova-transacao/entrada")}>
+            <AiOutlinePlusCircle />
+            <p>Nova <br /> entrada</p>
+          </button>
+          <button onClick = {() => navigate("/nova-transacao/saída")}>
+            <AiOutlineMinusCircle />
+            <p>Nova <br />saída</p>
+          </button>
       </ButtonsContainer>
 
     </HomeContainer>

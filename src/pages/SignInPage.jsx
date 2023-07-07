@@ -1,11 +1,14 @@
 import styled from "styled-components"
 import { Link, useNavigate } from "react-router-dom"
 import MyWalletLogo from "../components/MyWalletLogo"
-import { useState } from "react"
+import { useContext, useState } from "react"
 import axios from "axios"
+import { UserContext } from "../contexts/UserContext"
 
 export default function SignInPage() {
   const navigate = useNavigate();
+
+  const {user, setUser} = useContext(UserContext);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -23,7 +26,8 @@ export default function SignInPage() {
     axios.post(url,body)
       .then(resp => {
         console.log(resp);
-        console.log(resp.data.token);
+        console.log(resp.data);
+        localStorage.setItem("user", JSON.stringify(resp.data));
         navigate('/home');
       })
       .catch(err =>{
