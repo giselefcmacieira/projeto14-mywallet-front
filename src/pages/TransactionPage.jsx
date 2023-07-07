@@ -29,7 +29,7 @@ export default function TransactionsPage() {
     if(tipo === 'entrada'){
       type = 'income';
     } 
-    if(tipo === 'saída'){
+    if(tipo === 'saida'){
       type = 'outcome';
     }
     const url = `${import.meta.env.VITE_API_URL}/new-transaction/${type}`;
