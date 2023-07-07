@@ -28,6 +28,8 @@ export default function SignInPage() {
         console.log(resp);
         console.log(resp.data);
         localStorage.setItem("user", JSON.stringify(resp.data));
+        setUser(resp.data)
+        
         navigate('/home');
       })
       .catch(err =>{
@@ -42,6 +44,7 @@ export default function SignInPage() {
       <form onSubmit={signIn}>
         <MyWalletLogo />
         <input required 
+        data-test="email"
         type='email' 
         id= 'campoEmail'
         value = {email}
@@ -49,6 +52,7 @@ export default function SignInPage() {
         placeholder="E-mail" 
         />
         <input required 
+        data-test="password"
         type='password' 
         id= 'campoSenha'
         value = {password}
@@ -56,7 +60,7 @@ export default function SignInPage() {
         placeholder="Senha" 
         autoComplete="new-password"
         />
-        <button type='submit' disabled = {isDisabled}>Entrar</button>
+        <button data-test="sign-in-submit" type='submit' disabled = {isDisabled}>Entrar</button>
       </form>
 
       <Link to = '/cadastro'>

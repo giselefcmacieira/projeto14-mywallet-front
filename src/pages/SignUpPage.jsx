@@ -49,6 +49,7 @@ export default function SignUpPage() {
       <form onSubmit={signUp}>
         <MyWalletLogo />
         <input required 
+        data-test="name"
         type='text' 
         id= 'campoNome'
         value = {name}
@@ -56,6 +57,7 @@ export default function SignUpPage() {
         placeholder="Nome" 
         />
         <input required 
+        data-test="email"
         type='email' 
         id= 'campoEmail'
         value = {email}
@@ -63,6 +65,7 @@ export default function SignUpPage() {
         placeholder="E-mail" 
         />
         <input required 
+        data-test="password"
         type='password' 
         id= 'campoSenha'
         value = {password}
@@ -71,6 +74,7 @@ export default function SignUpPage() {
         autoComplete="new-password"
         />
         <input required 
+        data-test="conf-password"
         type='password' 
         id= 'campoConfirmacaoDeSenha'
         value = {passwordConfirmation}
@@ -78,7 +82,7 @@ export default function SignUpPage() {
         placeholder="Confirme a senha" 
         autoComplete="new-password"
         />
-        <button type='submit' disabled={isDisabled}>Cadastrar</button>
+        <button data-test="sign-up-submit" type='submit' disabled={isDisabled}>Cadastrar</button>
       </form>
 
       <Link to = '/'>
