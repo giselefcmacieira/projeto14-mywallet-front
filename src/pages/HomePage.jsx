@@ -41,9 +41,24 @@ export default function HomePage() {
       setUserTransactions(resp.data);
     })
     .catch (err => {
-      alert(err.response.data)
+      console.log(err.response.data)
+      navigate('/')
     })
-  }, [])
+  }, []);
+
+  function logout(){
+    const url = `${import.meta.env.VITE_API_URL}/sign-out`;
+    const headers = {headers: {'Authorization': `Bearer ${user.token}`}};
+    axios.delete(url, headers)
+      .then(resp => {
+        console.log(resp);
+        localStorage.removeItem("user");
+        navigate('/');
+      })
+      .catch(err => {
+        console.log(err.response.data);
+      })
+  }
   
   //headers: {'Authorization': `Bearer ${infProfi[0].token}`}
   
@@ -51,7 +66,7 @@ export default function HomePage() {
     <HomeContainer>
       <Header>
         <h1 data-test="user-name">Olá, {user.name}</h1>
-        <BiExit data-test="logout" />
+        <BiExit data-test="logout" onClick={logout}/>
       </Header>
 
       <TransactionsContainer>

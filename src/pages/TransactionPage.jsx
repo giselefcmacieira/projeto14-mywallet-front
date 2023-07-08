@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom"
 import styled from "styled-components"
 import { UserContext } from "../contexts/UserContext";
@@ -11,7 +11,6 @@ export default function TransactionsPage() {
   const [description, setDescription] = useState('');
   const [isDisabled, setIsDisabled] = useState(false);
   const navigate = useNavigate();
-
 
   function addTransaction (event){
     event.preventDefault();
