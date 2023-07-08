@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../contexts/UserContext";
 import axios from "axios";
+import dayjs from "dayjs";
 
 export default function HomePage() {
 
@@ -35,7 +36,7 @@ export default function HomePage() {
       console.log(s);
       console.log(typeof(s));
       setTotal(s);
-      setSoma(s.toString().replace('.',','));
+      setSoma(s.toFixed(2).toString().replace('.',','));
       resp.data.map( trans => trans.value = trans.value.replace('.',','));
       setUserTransactions(resp.data);
     })
@@ -58,7 +59,7 @@ export default function HomePage() {
           {userTransactions.map(transaction => (
             <ListItemContainer key = {transaction._id}>
             <div>
-              <span>{transaction.date}</span>
+              <span>{dayjs(transaction.date).format('DD/MM')}</span>
               <strong data-test="registry-name" >{transaction.description}</strong>
             </div>
             <Value data-test="registry-amount" color={transaction.type}>{transaction.value}</Value>

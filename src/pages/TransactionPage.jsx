@@ -16,14 +16,9 @@ export default function TransactionsPage() {
   function addTransaction (event){
     event.preventDefault();
     console.log(value);
-    //let valorCorreto = '';
+
     if(isNaN(value.replace(',','.'))) return alert('O valor precisa ser um número');
-    /* if(value.replace(',', '.').includes('.')){
-      valorCorreto = Number(value.replace(',', '.')).toFixed(2);
-    }else{
-      valorCorreto = Number(value).toFixed(2);
-    }
-    console.log(valorCorreto) */
+
     setIsDisabled(true);
     let type = '';
     if(tipo === 'entrada'){
