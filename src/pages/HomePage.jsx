@@ -84,7 +84,7 @@ export default function HomePage() {
 
         <article>
           <strong>Saldo</strong>
-          <Value data-test="total-amount" color={total >= 0 ? 'income' : 'outcome'}>{soma}</Value>
+          <div data-test="total-amount" color={total >= 0 ? 'income' : 'outcome'}>{soma}</div>
         </article>
       </TransactionsContainer>
 
@@ -118,21 +118,39 @@ const Header = styled.header`
   font-size: 26px;
   color: white;
 `
-const TransactionsContainer = styled.article`
+const TransactionsContainer = styled.div`
+  box-sizing: content-box;
   flex-grow: 1;
   background-color: #fff;
   color: #000;
   border-radius: 5px;
-  padding: 16px;
+  padding: 16px 16px 0px 16px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  overflow-y: scroll;
+  position: relative;
   article {
+    box-sizing: content-box;
+    padding-bottom: 8px;
+    padding-top: 3px;
+    box-sizing: content-box;
+    background-color:white;
+    width: 100%;
     display: flex;
-    justify-content: space-between;   
+    justify-content: space-between;  
+    position: sticky;
+    bottom: 0px;
+    right: 0px; 
     strong {
       font-weight: 700;
       text-transform: uppercase;
+    }
+    div{
+      padding-right: 10px;
+      font-size: 16px;
+      text-align: right;
+      color: ${(props) => (props.color === "income" ? "green" : "red")};
     }
   }
 `
@@ -156,6 +174,8 @@ const ButtonsContainer = styled.section`
   }
 `
 const Value = styled.div`
+  box-sizing: border-box;
+  //padding-right: 20px;
   font-size: 16px;
   text-align: right;
   color: ${(props) => (props.color === "income" ? "green" : "red")};

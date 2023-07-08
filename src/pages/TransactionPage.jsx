@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom"
 import styled from "styled-components"
 import { UserContext } from "../contexts/UserContext";
 
+
 export default function TransactionsPage() {
   const { tipo } = useParams();
   const {user} = useContext(UserContext);
@@ -11,6 +12,12 @@ export default function TransactionsPage() {
   const [description, setDescription] = useState('');
   const [isDisabled, setIsDisabled] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if(!user.token){
+      navigate('/');
+    }
+  }, []);
 
   function addTransaction (event){
     event.preventDefault();
