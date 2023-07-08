@@ -20,6 +20,9 @@ export default function HomePage() {
   const {user} = useContext(UserContext);
 
   useEffect(() => {
+    if(!user.token){
+      return navigate('/');
+    }
     const url = `${import.meta.env.VITE_API_URL}/my-transactions`;
     const headers = {headers: {'Authorization': `Bearer ${user.token}`}};
     axios.get(url, headers)
@@ -45,6 +48,8 @@ export default function HomePage() {
       navigate('/')
     })
   }, []);
+
+  console.log(total);
 
   function logout(){
     const url = `${import.meta.env.VITE_API_URL}/sign-out`;
@@ -84,7 +89,7 @@ export default function HomePage() {
 
         <article>
           <strong>Saldo</strong>
-          <div data-test="total-amount" color={total >= 0 ? 'income' : 'outcome'}>{soma}</div>
+          <Saldo data-test="total-amount" color={total}>{soma}</Saldo>
         </article>
       </TransactionsContainer>
 
@@ -122,7 +127,7 @@ const TransactionsContainer = styled.div`
   box-sizing: content-box;
   flex-grow: 1;
   background-color: #fff;
-  color: #000;
+  color: ${props => props.color};
   border-radius: 5px;
   padding: 16px 16px 0px 16px;
   display: flex;
@@ -146,14 +151,15 @@ const TransactionsContainer = styled.div`
       font-weight: 700;
       text-transform: uppercase;
     }
-    div{
-      padding-right: 10px;
-      font-size: 16px;
-      text-align: right;
-      color: ${(props) => (props.color === "income" ? "green" : "red")};
-    }
   }
 `
+const Saldo = styled.p`
+  padding-right: 10px;
+  font-size: 16px;
+  text-align: right;
+  color: ${props => props.color >= 0 ? 'green' : 'red'};
+`
+
 const ButtonsContainer = styled.section`
   margin-top: 15px;
   margin-bottom: 0;
