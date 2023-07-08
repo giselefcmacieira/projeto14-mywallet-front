@@ -36,7 +36,7 @@ export default function HomePage() {
       console.log(s);
       console.log(typeof(s));
       setTotal(s);
-      setSoma(s.toFixed(2).toString().replace('.',','));
+      setSoma(Math.abs(s).toFixed(2).toString().replace('.',','));
       resp.data.map( trans => trans.value = trans.value.replace('.',','));
       setUserTransactions(resp.data);
     })
