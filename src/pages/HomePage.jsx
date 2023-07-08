@@ -74,6 +74,7 @@ export default function HomePage() {
         <BiExit data-test="logout" onClick={logout}/>
       </Header>
 
+      {userTransactions.length === 0 ? <NoTransactionsContainer >Não há registros de entrada ou saída</NoTransactionsContainer> : 
       <TransactionsContainer>
         <ul>
           {userTransactions.map(transaction => (
@@ -91,7 +92,7 @@ export default function HomePage() {
           <strong>Saldo</strong>
           <Saldo data-test="total-amount" color={total}>{soma}</Saldo>
         </article>
-      </TransactionsContainer>
+      </TransactionsContainer>}
 
 
       <ButtonsContainer>
@@ -123,11 +124,27 @@ const Header = styled.header`
   font-size: 26px;
   color: white;
 `
+const NoTransactionsContainer = styled.div`
+  box-sizing: content-box;
+  flex-grow: 1;
+  background-color: #fff;
+  font-size: 20px;
+  color: #868686;
+  line-height: 24px;
+  font-weight: 400;
+  border-radius: 5px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+`
 const TransactionsContainer = styled.div`
   box-sizing: content-box;
   flex-grow: 1;
   background-color: #fff;
-  color: ${props => props.color};
+  color: black;
   border-radius: 5px;
   padding: 16px 16px 0px 16px;
   display: flex;
